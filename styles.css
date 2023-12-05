@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Sometype+Mono&display=swap');
 
 /*
@@ -54,8 +53,7 @@ h6 {
   isolation: isolate;
 }
 
-/* Styling */
-
+/* GLOABL VARIABLES */
 
 :root {
   --font-xs: 0.875rem;
@@ -74,15 +72,21 @@ h6 {
   --theme-label-dark: rgb(45, 45, 45);
   --theme-highlight: 240, 240, 240;
 
-  --shadow-button: 
-    0.3rem 0.3rem 1rem 0 rgba(0,0,0,0.2),
-    0.1rem 0.3rem .8rem 0 rgba(0,0,0,0.2), 
-    0.1rem 0.1rem .4rem 0 rgba(0,0,0,0.7), 
-    0.2rem 0.2rem .5rem 0 rgba(240, 240, 240, 0.15) inset,
-    0.1rem 0.1rem .2rem .1rem rgba(240, 240, 240, 0.05) inset
-    ;
+  --shadow-button: 0.3rem 0.3rem 1rem 0 rgba(0, 0, 0, 0.15),
+    0.1rem 0.3rem 0.8rem 0 rgba(0, 0, 0, 0.2),
+    0.1rem 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.7),
+    0.2rem 0.2rem 0.5rem 0 rgba(240, 240, 240, 0.15) inset,
+    0.1rem 0.1rem 0.2rem 0.1rem rgba(240, 240, 240, 0.05) inset;
 
-  --border-button: 0.05rem solid rgba(var(--theme-highlight), 0.4)
+  --shadow-button-clicked: 0.1rem 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.7),
+    0.2rem 0.2rem 0.5rem 0 rgba(240, 240, 240, 0.15) inset,
+    0.1rem 0.1rem 0.2rem 0.1rem rgba(240, 240, 240, 0.05) inset;
+
+  --shadow-screen: 0.3rem .8rem .5rem 0 rgba(0, 0, 0, 0.15),
+    0.1rem 0.2rem 0.5rem 0 rgba(0, 0, 0, 0.2),
+    0.1rem 0.2rem 0.4rem .1rem rgba(0, 0, 0, 0.5);
+
+  --border-button: 0.05rem solid rgba(var(--theme-highlight), 0.4);
 }
 
 body {
@@ -90,26 +94,109 @@ body {
   background-color: var(--theme-background);
 }
 
+/* PAGE STRUCTURE */
 .wrapper {
-  margin-top:10rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.keypad {
+header,
+main,
+footer {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+header,
+footer {
+  height: 4rem;
+  justify-content: center;
+}
+
+main {
+  flex-grow: 1;
+}
+
+/* CALCULATOR DESIGN */
+.calculator,
+.calc-head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.calc-head {
+  padding: 2rem 0;
+}
+
+.logo {
+  padding: 1rem 0.5rem;
+  font-size: var(--font-md);
+}
+
+.screen {
+  height: 8rem;
+  background-color: var(--theme-matt-black);
+  color: var(--theme-label-light);
+  box-shadow: var(--shadow-screen);
+}
+
+.pad-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 0.5rem;
+  height:fit-content;
+  width: fit-content;
+}
+
+.pad-num-grid {
+  grid-row: 2 / 6;
+  grid-column: 1 / 4;
+  display: flex;
+  flex-direction: column-reverse;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-left: 5rem;
-  margin-right: auto;
-  max-width: 18rem;
+}
+
+.pad-cmd {
+  grid-column: 1 / 4;
+}
+
+.pad-num-row,
+.pad-cmd {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+
+}
+
+.pad-operators {
+  grid-column: 4 / 5;
+  grid-row: 1 / 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
 }
 
 .btn-socket {
   width: 5rem;
-  aspect-ratio: 1;
+  height: 5rem;
   background-color: var(--theme-pure-black);
   border-radius: 0.2rem;
   padding: 0.1rem;
   display: flex;
+}
+
+.btn-socket.long {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  width: 100%;
 }
 
 .btn {
@@ -121,10 +208,22 @@ body {
   background-color: var(--theme-light-grey);
   color: var(--theme-label-dark);
   font-size: var(--font-lg);
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
   border-radius: 0.6rem;
   border-top: var(--border-button);
   border-left: var(--border-button);
   box-shadow: var(--shadow-button);
+
+  &&:hover {
+    cursor: pointer;
+  }
+
+  &&:active {
+    box-shadow: var(--shadow-button-clicked);
+    font-size: calc(var(--font-lg) * 0.99);
+  }
 
   &&.orange {
     background-color: var(--theme-orange);
@@ -142,3 +241,7 @@ body {
   }
 }
 
+.pad-num-grid .btn {
+  background-color: var(--theme-matt-black);
+  color: var(--theme-label-light);
+}

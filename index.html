@@ -1,42 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teenage Engineering Calculator</title>
-  <script src="scripts.js" defer></script>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teenage Engineering Calculator</title>
+    <script src="scripts.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="wrapper">
-      <div class="head">
-        <div class="logo"></div>
-        <div class="screen"></div>
-      </div>
-      <div class="keypad">
-        <div class="btn-socket">
-          <div class="btn">7</div>
+      <header>Teenage Engineering Calculator</header>
+      <main>
+        <div class="calculator">
+          <div class="calc-head">
+            <div class="logo">OC1-H 550 CLC</div>
+            <div class="screen">SCREEN</div>
+          </div>
+          <div class="pad-wrapper">
+            <div class="pad-cmd">
+              <div class="btn-socket">
+                <div class="btn orange" id="clear">AC</div>
+              </div>
+              <div class="btn-socket">
+                <div class="btn grey" id="minus">±</div>
+              </div>
+              <div class="btn-socket">
+                <div class="btn grey" id="%">%</div>
+              </div>
+            </div>
+            <div class="pad-operators">
+              <div class="btn-socket">
+                <div class="btn" id="/">÷</div>
+              </div>
+              <div class="btn-socket">
+                <div class="btn" id="*">×</div>
+              </div>
+              <div class="btn-socket">
+                <div class="btn" id="-">-</div>
+              </div>
+              <div class="btn-socket">
+                <div class="btn" id="+">+</div>
+              </div>
+              <div class="btn-socket">
+                <div class="btn" id="=">=</div>
+              </div>
+            </div>
+            <div class="pad-num-grid">
+              <div class="pad-num-row">
+                <div class="btn-socket">
+                  <div class="btn" id=".">.</div>
+                </div>
+                <div class="btn-socket long">
+                  <div class="btn" id="0">0</div>
+                </div>
+              </div>
+              <div class="pad-num-row">
+                <div class="btn-socket">
+                  <div class="btn" id="1">1</div>
+                </div>
+                <div class="btn-socket">
+                  <div class="btn" id="2">2</div>
+                </div>
+                <div class="btn-socket">
+                  <div class="btn" id="3">3</div>
+                </div>
+              </div>
+              <div class="pad-num-row">
+                <div class="btn-socket">
+                  <div class="btn" id="4">4</div>
+                </div>
+                <div class="btn-socket">
+                  <div class="btn" id="5">5</div>
+                </div>
+                <div class="btn-socket">
+                  <div class="btn" id="6">6</div>
+                </div>
+              </div>
+              <div class="pad-num-row">
+                <div class="btn-socket">
+                  <div class="btn" id="7">7</div>
+                </div>
+                <div class="btn-socket">
+                  <div class="btn" id="8">8</div>
+                </div>
+                <div class="btn-socket">
+                  <div class="btn" id="9">9</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="btn-socket">
-          <div class="btn">8</div>
-        </div>
-        <div class="btn-socket">
-          <div class="btn">9</div>
-        </div>
-        <div class="btn-socket">
-          <div class="btn orange">4</div>
-        </div>
-        <div class="btn-socket">
-          <div class="btn black">5</div>
-        </div>
-        <div class="btn-socket">
-          <div class="btn grey">6</div>
-        </div>
-      </div>
+      </main>
+      <footer>Footer Content</footer>
     </div>
-
-  </div>
-  <footer></footer>
-</body>
+  </body>
 </html>
