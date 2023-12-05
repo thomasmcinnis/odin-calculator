@@ -1,0 +1,144 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Sometype+Mono&display=swap');
+
+/*
+    Josh's Custom CSS Reset
+    https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  font-style: italic;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* Styling */
+
+
+:root {
+  --font-xs: 0.875rem;
+  --font-sm: 1rem;
+  --font-md: 1.5rem;
+  --font-lg: 2rem;
+  --font-xl: 3rem;
+
+  --theme-background: rgb(216, 212, 212);
+  --theme-matt-black: rgb(20, 20, 20);
+  --theme-pure-black: rgb(3, 3, 3);
+  --theme-light-grey: rgb(192, 189, 189);
+  --theme-dark-grey: rgb(128, 128, 128);
+  --theme-orange: rgb(220, 84, 47);
+  --theme-label-light: rgb(245, 245, 240);
+  --theme-label-dark: rgb(45, 45, 45);
+  --theme-highlight: 240, 240, 240;
+
+  --shadow-button: 
+    0.3rem 0.3rem 1rem 0 rgba(0,0,0,0.2),
+    0.1rem 0.3rem .8rem 0 rgba(0,0,0,0.2), 
+    0.1rem 0.1rem .4rem 0 rgba(0,0,0,0.7), 
+    0.2rem 0.2rem .5rem 0 rgba(240, 240, 240, 0.15) inset,
+    0.1rem 0.1rem .2rem .1rem rgba(240, 240, 240, 0.05) inset
+    ;
+
+  --border-button: 0.05rem solid rgba(var(--theme-highlight), 0.4)
+}
+
+body {
+  font-family: 'Sometype Mono';
+  background-color: var(--theme-background);
+}
+
+.wrapper {
+  margin-top:10rem;
+}
+
+.keypad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: 5rem;
+  margin-right: auto;
+  max-width: 18rem;
+}
+
+.btn-socket {
+  width: 5rem;
+  aspect-ratio: 1;
+  background-color: var(--theme-pure-black);
+  border-radius: 0.2rem;
+  padding: 0.1rem;
+  display: flex;
+}
+
+.btn {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.2rem 0 0;
+  background-color: var(--theme-light-grey);
+  color: var(--theme-label-dark);
+  font-size: var(--font-lg);
+  border-radius: 0.6rem;
+  border-top: var(--border-button);
+  border-left: var(--border-button);
+  box-shadow: var(--shadow-button);
+
+  &&.orange {
+    background-color: var(--theme-orange);
+    color: var(--theme-label-light);
+  }
+
+  &&.grey {
+    background-color: var(--theme-dark-grey);
+    color: var(--theme-label-light);
+  }
+
+  &&.black {
+    background-color: var(--theme-matt-black);
+    color: var(--theme-label-light);
+  }
+}
+
