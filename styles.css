@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Sometype+Mono&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 /*
     Josh's Custom CSS Reset
     https://www.joshwcomeau.com/css/custom-css-reset/
@@ -82,9 +82,10 @@ h6 {
     0.2rem 0.2rem 0.5rem 0 rgba(240, 240, 240, 0.15) inset,
     0.1rem 0.1rem 0.2rem 0.1rem rgba(240, 240, 240, 0.05) inset;
 
-  --shadow-screen: 0.3rem .8rem .5rem 0 rgba(0, 0, 0, 0.15),
-    0.1rem 0.2rem 0.5rem 0 rgba(0, 0, 0, 0.2),
-    0.1rem 0.2rem 0.4rem .1rem rgba(0, 0, 0, 0.5);
+  --shadow-screen: 0.3rem .6rem .5rem 0 rgba(0, 0, 0, 0.15),
+    0.1rem 0.2rem 0.5rem 0 rgba(0, 0, 0, 0.4),
+    0.1rem 0.2rem 0.4rem .1rem rgba(0, 0, 0, 0.5),
+    0rem 0rem 0.02rem .4rem rgba(240, 240, 240, .04) inset;
 
   --border-button: 0.05rem solid rgba(var(--theme-highlight), 0.4);
 }
@@ -121,21 +122,20 @@ main {
 }
 
 /* CALCULATOR DESIGN */
-.calculator,
-.calc-head {
+.calculator {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: stretch;
 }
 
 .calc-head {
-  padding: 2rem 0;
+  padding: 2rem 0 1.5rem 0;
 }
 
-.logo {
-  padding: 1rem 0.5rem;
-  font-size: var(--font-md);
+.model {
+  padding: 0.3rem;
+  font-size: var(--font-xs);
 }
 
 .screen {
@@ -143,6 +143,32 @@ main {
   background-color: var(--theme-matt-black);
   color: var(--theme-label-light);
   box-shadow: var(--shadow-screen);
+  border: var(--border-button);
+  overflow: hidden;
+  position: relative;
+}
+
+.glare {
+  border-left: 10rem solid rgba(210, 210, 210, 0.05);
+  border-bottom: 11rem solid transparent;
+  filter: blur(1px);
+  position: absolute;
+  z-index: 20;
+}
+
+.screen-content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  padding: 0 1.5rem;
+}
+
+.interface-text {
+  font-family: 'VT323', monospace;
+  font-size: var(--font-xl);
+  color: var(--theme-light-grey);
+  max-width: 12ch;
 }
 
 .pad-wrapper {
