@@ -78,14 +78,14 @@ h6 {
     0.2rem 0.2rem 0.5rem 0 rgba(240, 240, 240, 0.15) inset,
     0.1rem 0.1rem 0.2rem 0.1rem rgba(240, 240, 240, 0.05) inset;
 
-  --shadow-button-clicked: 0.1rem 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.7),
+  --shadow-button-clicked: 0.1rem 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.2),
     0.2rem 0.2rem 0.5rem 0 rgba(240, 240, 240, 0.15) inset,
     0.1rem 0.1rem 0.2rem 0.1rem rgba(240, 240, 240, 0.05) inset;
 
-  --shadow-screen: 0.3rem .6rem .5rem 0 rgba(0, 0, 0, 0.15),
+  --shadow-screen: 0.3rem 0.6rem 0.5rem 0 rgba(0, 0, 0, 0.15),
     0.1rem 0.2rem 0.5rem 0 rgba(0, 0, 0, 0.4),
-    0.1rem 0.2rem 0.4rem .1rem rgba(0, 0, 0, 0.5),
-    0rem 0rem 0.02rem .4rem rgba(240, 240, 240, .04) inset;
+    0.1rem 0.2rem 0.4rem 0.1rem rgba(0, 0, 0, 0.5),
+    0rem 0rem 0.02rem 0.4rem rgba(240, 240, 240, 0.04) inset;
 
   --border-button: 0.05rem solid rgba(var(--theme-highlight), 0.4);
 }
@@ -176,7 +176,7 @@ main {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
   gap: 0.5rem;
-  height:fit-content;
+  height: fit-content;
   width: fit-content;
 }
 
@@ -198,7 +198,6 @@ main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
-
 }
 
 .pad-operators {
@@ -207,7 +206,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
 }
 
 .btn-socket {
@@ -248,7 +246,8 @@ main {
 
   &&:active {
     box-shadow: var(--shadow-button-clicked);
-    font-size: calc(var(--font-lg) * 0.99);
+    /* font-size: calc(var(--font-lg) * 0.98); */
+    transform: scale(0.99);
   }
 
   &&.orange {
