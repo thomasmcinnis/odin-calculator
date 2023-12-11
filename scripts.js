@@ -26,82 +26,82 @@ let lastOperation = {
 const handleClick = function (input) {
   if (input == 'clear') {
     clearHandler();
-  } else if (input == 'percent') {
+  } else if (input == '%') {
     percentHandler();
-  } else if (input == 'minus') {
+  } else if (input == '±') {
     negPosHandler();
   } else if (input == '=') {
     equalsHandler();
   } else if (input == '/' || input == '*' || input == '-' || input == '+') {
-    operator = input;
+    operatorHandler(input);
   } else {
-    console.log(input);
     numKeyHandler(input);
   }
 
   textField.textContent = displayNum;
-  // TODO: limit length to 12 regardless of decimal position
 };
 
-const updateValues = function () {
-  !operator ? (firstNum = displayNum) : (secondNum = displayNum);
+const operatorHandler = function (input) {
+  if (!operator) firstNum = displayNum;
+  operator = input;
 };
 
 const numKeyHandler = function (input) {
   if (displayNum == 0 && input == 0) return;
 
-  if (input == 'point') input = '.';
-  // TODO: prevent multiple points in a num
-  // TODO: insert leading 0 if displayNum currently 0
+  // TODO: prevent input if displayNum excl. point and leading minus length greater than precision
 
-  if (secondNum || (!operator && firstNum)) {
+  if (input == 'point') {
+    if (displayNum && displayNum.includes('.')) return;
+    displayNum += '.';
+  } else if (secondNum || (!operator && firstNum)) {
     displayNum += input;
   } else {
     displayNum = input;
   }
 
-  updateValues();
+  // Write the display value to the appropriate num variable
+  !operator ? (firstNum = displayNum) : (secondNum = displayNum);
 };
 
 const equalsHandler = function () {
+  // Early returns for cases where we don't want the equals key to invoke anything
   if (operator == '/' && secondNum == 0) {
     return alert("Don't do that!");
   }
-
-  if (displayNum == 0) return (displayNum = 0);
-  console.log(secondNum);
-  let a;
-  let b;
-  let c;
-
+  if (displayNum == 0) return;
   if (!operator && !lastOperation.operator) return;
+
+  // Declare some temp variables
+  let argFirst, argSecond, argOperator;
+
+  // If theres no secondNum and none saved from the prior operation, use the current display
   if (!secondNum && !lastOperation.b) {
-    a = displayNum;
-    b = displayNum;
+    argFirst = displayNum;
+    argSecond = displayNum;
   } else {
-    a = firstNum ? firstNum : displayNum;
-    b = secondNum ? secondNum : lastOperation.b;
+    argFirst = firstNum ? firstNum : displayNum;
+    argSecond = secondNum ? secondNum : lastOperation.b;
   }
-  c = operator ? operator : lastOperation.operator;
+  argOperator = operator ? operator : lastOperation.operator;
 
-  result = calculate(parseFloat(a), parseFloat(b), c);
+  result = calculate(parseFloat(argFirst), parseFloat(argSecond), argOperator);
 
-  lastOperation.a = a;
-  lastOperation.b = b;
-  lastOperation.operator = c;
-  console.log(lastOperation);
+  lastOperation.a = argFirst;
+  lastOperation.b = argSecond;
+  lastOperation.operator = argOperator;
 
   firstNum = null;
   secondNum = null;
   operator = null;
 
-  displayNum = result;
+  // Sets the dsplay to the result with a precision and regex to remove trailing zeros and decimal point
+  displayNum = result.toPrecision(12).replace(/(?:\.0+|(\.\d+?)0+)$/, '$1');
 };
 
 const percentHandler = function () {
   if (displayNum == 0) return;
   displayNum = displayNum / 100;
-  updateValues();
 };
 
 const negPosHandler = function () {
@@ -111,7 +111,6 @@ const negPosHandler = function () {
   } else {
     displayNum = -Math.abs(displayNum);
   }
-  updateValues();
 };
 
 const clearHandler = function () {
