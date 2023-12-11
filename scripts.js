@@ -49,12 +49,11 @@ const operatorHandler = function (input) {
 const numKeyHandler = function (input) {
   if (displayNum == 0 && input == 0) return;
 
-  // TODO: prevent input if displayNum excl. point and leading minus length greater than precision
-
   if (input == 'point') {
     if (displayNum && displayNum.includes('.')) return;
     displayNum += '.';
   } else if (secondNum || (!operator && firstNum)) {
+    if (displayNum.toString().length >= 10) return;
     displayNum += input;
   } else {
     displayNum = input;
@@ -96,7 +95,7 @@ const equalsHandler = function () {
   operator = null;
 
   // Sets the dsplay to the result with a precision and regex to remove trailing zeros and decimal point
-  displayNum = result.toPrecision(12).replace(/(?:\.0+|(\.\d+?)0+)$/, '$1');
+  displayNum = result.toPrecision(9).replace(/(?:\.0+|(\.\d+?)0+)$/, '$1');
 };
 
 const percentHandler = function () {

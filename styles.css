@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Sometype+Mono&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+@font-face {
+  font-family: 'ScientificCalculator';
+  src: url('ScientificCalculatorLcdRegular-Kn7X.ttf');
+}
+
 /*
     Josh's Custom CSS Reset
     https://www.joshwcomeau.com/css/custom-css-reset/
@@ -53,7 +58,7 @@ h6 {
   isolation: isolate;
 }
 
-/* GLOABL VARIABLES */
+/* GLOBAL VARIABLES */
 
 :root {
   --font-xs: 0.875rem;
@@ -90,6 +95,9 @@ h6 {
     0rem 0rem 0.02rem 0.4rem rgba(240, 240, 240, 0.04) inset;
 
   --border-button: 0.05rem solid rgba(var(--theme-highlight), 0.4);
+
+  --shadow-machine-mark: 0.03rem 0.03rem 0.1rem 0 rgba(71, 71, 71, 0.3) inset,
+    -0.03rem -0.03rem 0.1rem 0 rgba(250, 250, 250, 0.75) inset;
 }
 
 body {
@@ -102,25 +110,47 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding: 1rem 2rem;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper {
+    padding: 0.5rem;
+  }
 }
 
 header,
 main,
 footer {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 1rem 2rem;
 }
 
 header,
 footer {
-  height: 4rem;
+  height: 2rem;
   justify-content: center;
 }
 
 main {
   flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  font-size: var(--font-sm);
+  margin-right: auto;
+}
+
+a {
+  text-decoration: none;
+  color: var(--theme-dark-grey);
+}
+
+.links {
+  margin-left: auto;
 }
 
 /* CALCULATOR DESIGN */
@@ -132,12 +162,38 @@ main {
 }
 
 .calc-head {
-  padding: 2rem 0 1.5rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: stretch;
+  padding-bottom: 0.5rem;
 }
 
-.model {
-  padding: 0.3rem;
+.calc-head .model-number {
+  font-size: var(--font-md);
+  margin-bottom: 2.5rem;
+  color: var(--theme-label-dark);
+}
+
+.calc-head p {
   font-size: var(--font-xs);
+}
+
+.head-border {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.head-content {
+  flex-grow: 1;
+  padding: 0 0.5rem;
+}
+
+.machine-mark {
+  height: 0.8725rem;
+  width: 0.8725rem;
+  border-radius: 100%;
+  box-shadow: var(--shadow-machine-mark);
 }
 
 .screen {
@@ -148,31 +204,56 @@ main {
   border: var(--border-button);
   overflow: hidden;
   position: relative;
+  margin-bottom: 1.5rem;
 }
 
 .glare {
-  border-left: 10rem solid rgba(210, 210, 210, 0.05);
-  border-bottom: 11rem solid transparent;
-  filter: blur(1px);
   position: absolute;
   z-index: 20;
+  height: 12rem;
+  width: 20rem;
+  transform: rotate(-50deg) translateY(-7rem) translateX(-2rem);
+  background-image: linear-gradient(
+    50deg,
+    rgba(240, 240, 240, 0.003),
+    rgba(240, 240, 240, 0.08)
+  );
+  filter: blur(1px);
 }
 
-.screen-content {
+.display {
+  height: 100%;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.display-top,
+.display-bottom {
+  flex-basis: 0;
+  height: 1.5rem;
+}
+
+.display-bottom {
+  align-self: flex-end;
+}
+
+.interface {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   height: 100%;
-  padding: 0 1.5rem;
+  padding-top: 0.75rem;
 }
 
 .interface-text {
-  font-family: 'VT323', monospace;
-  font-size: var(--font-xl);
+  font-family: 'ScientificCalculator', monospace;
+  font-size: var(--font-md);
   color: var(--theme-light-grey);
   overflow: hidden;
-  max-width: 14ch;
+  line-height: 1.5;
   white-space: nowrap;
+  letter-spacing: -0.4rem;
 }
 
 .pad-wrapper {
