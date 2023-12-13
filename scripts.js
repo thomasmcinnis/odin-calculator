@@ -42,7 +42,10 @@ const handleClick = function (input) {
 };
 
 const operatorHandler = function (input) {
-  if (!operator) firstNum = displayNum;
+  if (!operator) {
+    if (displayNum == 0) return
+    firstNum = displayNum
+  }
   operator = input;
 };
 
