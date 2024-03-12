@@ -1,146 +1,206 @@
-// DOM ELEMENTS & LISTENERS
 const buttons = document.getElementsByClassName('btn');
 
 Array.from(buttons).forEach((button) => {
-  button.addEventListener('click', () => {
-    handleClick(button.id);
-  });
+    button.addEventListener('click', () => {
+        handleClick(button.id);
+    });
 });
 
 const textField = document.querySelector('.interface-text');
 
-// VALUE STORE
-let displayNum = 0;
-let firstNum = null;
-let secondNum = null;
+function updateScreen(text) {
+    textField.textContent = text;
+}
 
+// The left and right terms, and an index to toggle which is currently edited
+let terms = [0, 0];
+let i = 0;
 let operator = null;
 
-let lastOperation = {
-  a: '',
-  b: '',
-  operator: '',
+let previous = {
+    left: null,
+    right: null,
+    operator: null,
+    result: null,
 };
 
-// HANDLE LOGIC
-const handleClick = function (input) {
-  if (input == 'clear') {
-    clearHandler();
-  } else if (input == '%') {
-    percentHandler();
-  } else if (input == '±') {
-    negPosHandler();
-  } else if (input == '=') {
+function handleClick(input) {
+    if (input == 'clear') {
+        clearHandler();
+    } else if (input == '%') {
+        percentHandler();
+    } else if (input == '±') {
+        negPosHandler();
+    } else if (input == '=') {
+        equalsHandler();
+    } else if (input == '/' || input == '*' || input == '-' || input == '+') {
+        operatorHandler(input);
+    } else {
+        numKeyHandler(input);
+    }
+
+    console.log(terms[0], operator, terms[1]);
+
+    updateScreen(terms[i]);
+}
+
+function numKeyHandler(input) {
+    // If there is no operator, input is left, otherwise input is for right
+    if (!operator) {
+        i = 0;
+    } else {
+        i = 1;
+    }
+
+    // If left and left equal to prev result, set to zero before proceeding
+    if (i == 0 && terms[i] == previous.result) {
+        terms[i] = 0;
+    }
+
+    // If current term exceeds max do nothing
+    if (terms[i].toString().length >= 10) {
+        return;
+    }
+
+    // If input a point and term contains a point return, otherwise append
+    if (terms[i].toString().includes('.')) {
+        if (input == '.') {
+            return;
+        }
+        terms[i] += input;
+        return;
+    }
+
+    // If current is not 0 just append input
+    if (Number(terms[i]) !== 0) {
+        terms[i] += input;
+        return;
+    }
+
+    // Last we deal with actual 0, which we just overwrite
+    if (input == '.') {
+        terms[i] += input;
+        return;
+    }
+
+    terms[i] = input;
+}
+
+function operatorHandler(input) {
+    let [left, right] = terms;
+
+    // if no operator set operator unless left zero
+    if (!operator) {
+        if (Number(left) !== 0) {
+            operator = input;
+        }
+        return;
+    }
+
+    // if is operator, but right still zero just overwrite operator
+    if (right === 0) {
+        operator = input;
+        return;
+    }
+
+    // if right term exists, invoke equals behaviour, and replace operator
+    // input ready for new right term input
     equalsHandler();
-  } else if (input == '/' || input == '*' || input == '-' || input == '+') {
-    operatorHandler(input);
-  } else {
-    numKeyHandler(input);
-  }
+    operator = input;
+}
 
-  textField.textContent = displayNum;
-};
+function equalsHandler() {
+    let [left, right] = terms;
 
-const operatorHandler = function (input) {
-  if (!operator) {
-    if (displayNum == 0) return
-    firstNum = displayNum
-  }
-  operator = input;
-};
+    // If there is no curr or prev operator then return else use prev
+    if (!operator) {
+        if (!previous.operator) {
+            return;
+        }
+        operator = previous.operator;
+    }
 
-const numKeyHandler = function (input) {
-  if (displayNum == 0 && input == 0) return;
+    // Guard agains dividing by zero
+    if (operator == '/' && right == 0) {
+        alert("Don't do that!");
+        clearHandler();
+        return;
+    }
 
-  if (input == 'point') {
-    if (displayNum && displayNum.includes('.')) return;
-    displayNum += '.';
-  } else if (secondNum || (!operator && firstNum)) {
-    if (displayNum.toString().length >= 10) return;
-    displayNum += input;
-  } else {
-    displayNum = input;
-  }
+    // If the left term is zero then return
+    if (left == 0) {
+        return;
+    }
 
-  // Write the display value to the appropriate num variable
-  !operator ? (firstNum = displayNum) : (secondNum = displayNum);
-};
+    // If no right term, use prev. right or use left on both sides
+    if (!right) {
+        if (!previous.right) {
+            right = left;
+        } else {
+            right = previous.right;
+        }
+    }
 
-const equalsHandler = function () {
-  // Early returns for cases where we don't want the equals key to invoke anything
-  if (operator == '/' && secondNum == 0) {
-    return alert("Don't do that!");
-  }
-  if (displayNum == 0) return;
-  if (!operator && !lastOperation.operator) return;
+    const result = calculate(parseFloat(left), parseFloat(right), operator);
 
-  // Declare some temp variables
-  let argFirst, argSecond, argOperator;
+    // Update the previous with the values from the just completed operation
+    previous.left = left;
+    previous.right = right;
+    previous.operator = operator;
+    previous.result = result;
 
-  // If theres no secondNum and none saved from the prior operation, use the current display
-  if (!secondNum && !lastOperation.b) {
-    argFirst = displayNum;
-    argSecond = displayNum;
-  } else {
-    argFirst = firstNum ? firstNum : displayNum;
-    argSecond = secondNum ? secondNum : lastOperation.b;
-  }
-  argOperator = operator ? operator : lastOperation.operator;
+    // Set left to result limited by precision and remove trailing 0s
+    terms[0] = result.toPrecision(8).replace(/(?:\.0+|(\.\d+?)0+)$/, '$1');
 
-  result = calculate(parseFloat(argFirst), parseFloat(argSecond), argOperator);
+    // Null out right and operator
+    terms[1] = 0;
+    operator = null;
 
-  lastOperation.a = argFirst;
-  lastOperation.b = argSecond;
-  lastOperation.operator = argOperator;
+    // Ensure the current term is reset to left
+    i = 0;
+}
 
-  firstNum = null;
-  secondNum = null;
-  operator = null;
+function percentHandler() {
+    if (terms[i] == 0) {
+        return;
+    }
+    terms[i] = terms[i] / 100;
+}
 
-  // Sets the dsplay to the result with a precision and regex to remove trailing zeros and decimal point
-  displayNum = result.toPrecision(9).replace(/(?:\.0+|(\.\d+?)0+)$/, '$1');
-};
+function negPosHandler() {
+    if (terms[i] == 0) {
+        return;
+    } else if (terms[i] < 0) {
+        terms[i] = Math.abs(terms[i]);
+    } else {
+        terms[i] = -Math.abs(terms[i]);
+    }
+}
 
-const percentHandler = function () {
-  if (displayNum == 0) return;
-  displayNum = displayNum / 100;
-};
+function clearHandler() {
+    terms = [0, 0];
+    operator = null;
+    previous.left = null;
+    previous.right = null;
+    previous.operator = null;
+}
 
-const negPosHandler = function () {
-  if (displayNum == 0) return;
-  if (displayNum < 0) {
-    displayNum = Math.abs(displayNum);
-  } else {
-    displayNum = -Math.abs(displayNum);
-  }
-};
+function calculate(a, b, operator) {
+    let result;
 
-const clearHandler = function () {
-  displayNum = 0;
-  firstNum = null;
-  operator = null;
-  lastOperation.a = null;
-  lastOperation.b = null;
-  lastOperation.operator = null;
-};
+    switch (operator) {
+        case '+':
+            result = Number(a) + Number(b);
+            break;
+        case '-':
+            result = Number(a) - Number(b);
+            break;
+        case '*':
+            result = Number(a) * Number(b);
+            break;
+        default:
+            result = Number(a) / Number(b);
+    }
 
-// CALCULATION
-const calculate = function (a, b, operator) {
-  let result;
-
-  switch (operator) {
-    case '+':
-      result = Number(a) + Number(b);
-      break;
-    case '-':
-      result = Number(a) - Number(b);
-      break;
-    case '*':
-      result = Number(a) * Number(b);
-      break;
-    default:
-      result = Number(a) / Number(b);
-  }
-
-  return result;
-};
+    return result;
+}
